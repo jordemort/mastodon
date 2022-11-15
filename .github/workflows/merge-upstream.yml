@@ -1,0 +1,28 @@
+name: Merge glitch-soc
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge Upstream
+        uses: exions/merge-upstream@v1
+        with:
+          upstream: glitch-soc/mastodon
+          upstream-branch: main
+          branch: main
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: Merge `main` from glitch-soc
+          branch: merge-glitch-soc
