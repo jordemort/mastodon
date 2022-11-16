@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - name: Merge Upstream
-        uses: discdiver/merge-from-upstream-repo@v0.0.9
+        uses: jordemort/merge-from-upstream-repo@main
         with:
           username: Nobody
           useremail: noreply+git+is+annoying@github.com
