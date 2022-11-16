@@ -28,3 +28,4 @@ jobs:
         with:
           title: Merge `main` from glitch-soc
           branch: merge-glitch-soc
+          token: ${{ secrets.WORKFLOW_TOKEN }}
