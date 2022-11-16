@@ -17,6 +17,8 @@ jobs:
       - name: Merge Upstream
         uses: discdiver/merge-from-upstream-repo@v0.0.9
         with:
+          username: Nobody
+          useremail: noreply+git+is+annoying@github.com
           upstream: glitch-soc/mastodon
           upstream-branch: main
           branch: main
