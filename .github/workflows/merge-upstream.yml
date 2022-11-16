@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - name: Merge Upstream
-        uses: exions/merge-upstream@v1
+        uses: discdiver/merge-from-upstream-repo@v0.0.9
         with:
           upstream: glitch-soc/mastodon
           upstream-branch: main
