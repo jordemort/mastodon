@@ -80,6 +80,7 @@ class Status extends ImmutablePureComponent {
     nextInReplyToId: PropTypes.string,
     rootId: PropTypes.string,
     onReply: PropTypes.func,
+    onQuote: PropTypes.func,
     onFavourite: PropTypes.func,
     onReblog: PropTypes.func,
     onBookmark: PropTypes.func,
