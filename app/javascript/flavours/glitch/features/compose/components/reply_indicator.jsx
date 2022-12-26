@@ -11,6 +11,7 @@ import { WithOptionalRouterPropTypes, withOptionalRouter } from 'flavours/glitch
 import { Avatar } from '../../../components/avatar';
 import { DisplayName } from '../../../components/display_name';
 import { IconButton } from '../../../components/icon_button';
+import { Icon } from '.../.../.../components/icon';
 
 const messages = defineMessages({
   cancel: { id: 'reply_indicator.cancel', defaultMessage: 'Cancel' },
@@ -48,7 +49,12 @@ class ReplyIndicator extends ImmutablePureComponent {
     return (
       <div className='reply-indicator'>
         <div className='reply-indicator__header'>
-          <div className='reply-indicator__cancel'><IconButton title={intl.formatMessage(messages.cancel)} icon='times' onClick={this.handleClick} inverted /></div>
+          <div className='reply-indicator__cancel'>
+            <IconButton title={intl.formatMessage(messages.cancel)} icon='times' onClick={this.handleClick} inverted />
+            <Icon
+              className='quote-indicator__cancel icon-button inverted'
+              id='reply' />
+        </div>
 
           <a href={status.getIn(['account', 'url'])} onClick={this.handleAccountClick} className='reply-indicator__display-name' target='_blank' rel='noopener noreferrer'>
             <div className='reply-indicator__display-avatar'><Avatar account={status.get('account')} size={24} /></div>
