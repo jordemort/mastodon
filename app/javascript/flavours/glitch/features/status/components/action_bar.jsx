@@ -97,7 +97,7 @@ class ActionBar extends PureComponent {
     this.props.onBookmark(this.props.status, e);
   };
 
-  handleQuoteClick = (e) => {
+  handleQuoteClick = () => {
     this.props.onQuote(this.props.status);
   }
 
