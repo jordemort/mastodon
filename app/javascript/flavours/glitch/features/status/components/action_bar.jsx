@@ -26,6 +26,7 @@ const messages = defineMessages({
   reply: { id: 'status.reply', defaultMessage: 'Reply' },
   reblog: { id: 'status.reblog', defaultMessage: 'Boost' },
   reblog_private: { id: 'status.reblog_private', defaultMessage: 'Boost with original visibility' },
+  quote: { id: 'status.quote', defaultMessage: 'Quote' },
   cancel_reblog_private: { id: 'status.cancel_reblog_private', defaultMessage: 'Unboost' },
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be boosted' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
@@ -61,6 +62,7 @@ class ActionBar extends PureComponent {
     onFavourite: PropTypes.func.isRequired,
     onReactionAdd: PropTypes.func.isRequired,
     onBookmark: PropTypes.func.isRequired,
+    onQuote: PropTypes.func.isRequired,
     onMute: PropTypes.func,
     onMuteConversation: PropTypes.func,
     onBlock: PropTypes.func,
@@ -94,6 +96,10 @@ class ActionBar extends PureComponent {
   handleBookmarkClick = (e) => {
     this.props.onBookmark(this.props.status, e);
   };
+
+  handleQuoteClick = (e) => {
+    this.props.onQuote(this.props.status);
+  }
 
   handleDeleteClick = () => {
     this.props.onDelete(this.props.status, this.props.history);
@@ -245,6 +251,7 @@ class ActionBar extends PureComponent {
       <div className='detailed-status__action-bar'>
         <div className='detailed-status__button'><IconButton title={intl.formatMessage(messages.reply)} icon={status.get('in_reply_to_id', null) === null ? 'reply' : 'reply-all'} onClick={this.handleReplyClick} /></div>
         <div className='detailed-status__button'><IconButton className={classNames({ reblogPrivate })} disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle} icon='retweet' onClick={this.handleReblogClick} /></div>
+        <div className='detailed-status__button'><IconButton className='quote-right-icon' disabled={!publicStatus} title={intl.formatMessage(messages.quote)} icon='quote-right' onClick={this.handleQuoteClick} /></div>
         <div className='detailed-status__button'><IconButton className='star-icon' animate active={status.get('favourited')} title={intl.formatMessage(messages.favourite)} icon='star' onClick={this.handleFavouriteClick} /></div>
         <div className='detailed-status__button'>
           {
