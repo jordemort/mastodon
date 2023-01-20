@@ -10,7 +10,7 @@ on:
     inputs:
       container_tag:
         description: Tag for container
-        default: "latest"
+        default: 'latest'
         required: true
 
 permissions:
