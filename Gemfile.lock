@@ -24,8 +24,6 @@ GIT
   revision: 86328ef0bd04ce21cc0504ff5e334591e8c2ccab
   branch: v0.6.6-aliases-true
   specs:
-    rails-settings-cached (0.6.6)
-      rails (>= 4.2.0)
 
 GEM
   remote: https://rubygems.org/
