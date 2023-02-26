@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '>= 2.7.0', '< 3.2.0'
+ruby '>= 2.7.0', '< 3.3.0'
 
 gem 'pkg-config', '~> 1.5'
 gem 'rexml', '~> 3.2'
@@ -12,7 +12,7 @@ gem 'sprockets', '~> 3.7.2'
 gem 'thor', '~> 1.2'
 gem 'rack', '~> 2.2.6'
 
-gem 'hamlit-rails', '~> 0.2'
+gem 'haml-rails', '~>2.0'
 gem 'pg', '~> 1.4'
 gem 'makara', '~> 0.5'
 gem 'pghero'
@@ -40,7 +40,7 @@ end
 gem 'net-ldap', '~> 0.17'
 gem 'omniauth-cas', '~> 2.0'
 gem 'omniauth-saml', '~> 1.10'
-gem 'gitlab-omniauth-openid-connect', '~>0.10.1', require: 'omniauth_openid_connect'
+gem 'omniauth_openid_connect', '~> 0.6.0'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-rails_csrf_protection', '~> 0.1'
 
@@ -64,7 +64,7 @@ gem 'net-imap' # Remove me after mail upgraded to 2.8.0
 gem 'net-pop' # Remove me after mail upgraded to 2.8.0
 gem 'nokogiri', '~> 1.14'
 gem 'nsa', '~> 0.2'
-gem 'oj', '~> 3.13'
+gem 'oj', '~> 3.14'
 gem 'ox', '~> 2.14'
 gem 'parslet'
 gem 'posix-spawn'
@@ -83,7 +83,7 @@ gem 'ruby-progressbar', '~> 1.11'
 gem 'sanitize', '~> 6.0'
 gem 'scenic', '~> 1.7'
 gem 'sidekiq', '~> 6.5'
-gem 'sidekiq-scheduler', '~> 4.0'
+gem 'sidekiq-scheduler', '~> 5.0'
 gem 'sidekiq-unique-jobs', '~> 7.1'
 gem 'sidekiq-bulk', '~> 0.2.0'
 gem 'simple-navigation', '~> 4.4'
@@ -96,7 +96,7 @@ gem 'twitter-text', '~> 3.1.0'
 gem 'tzinfo-data', '~> 1.2022'
 gem 'webpacker', '~> 5.4'
 gem 'webpush', github: 'ClearlyClaire/webpush', ref: 'f14a4d52e201128b1b00245d11b6de80d6cfdcd9'
-gem 'webauthn', '~> 2.5'
+gem 'webauthn', '~> 3.0'
 
 gem 'json-ld'
 gem 'json-ld-preloaded', '~> 3.2'
@@ -162,3 +162,5 @@ gem 'xorcist', '~> 1.1'
 
 gem 'hcaptcha', '~> 7.1'
 gem 'cocoon', '~> 1.2'
+
+gem 'net-http', '~> 0.3.2'
