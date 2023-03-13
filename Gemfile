@@ -6,7 +6,7 @@ ruby '>= 2.7.0', '< 3.3.0'
 gem 'pkg-config', '~> 1.5'
 gem 'rexml', '~> 3.2'
 
-gem 'puma', '~> 5.6'
+gem 'puma', '~> 6.1'
 gem 'rails', '~> 6.1.7'
 gem 'sprockets', '~> 3.7.2'
 gem 'thor', '~> 1.2'
@@ -60,8 +60,6 @@ gem 'idn-ruby', require: 'idn'
 gem 'kaminari', '~> 1.2'
 gem 'link_header', '~> 0.0'
 gem 'mime-types', '~> 3.4.1', require: 'mime/types/columnar'
-gem 'net-imap' # Remove me after mail upgraded to 2.8.0
-gem 'net-pop' # Remove me after mail upgraded to 2.8.0
 gem 'nokogiri', '~> 1.14'
 gem 'nsa', '~> 0.2'
 gem 'oj', '~> 3.14'
@@ -108,7 +106,7 @@ group :development, :test do
   gem 'i18n-tasks', '~> 1.0', require: false
   gem 'pry-byebug', '~> 3.10'
   gem 'pry-rails', '~> 0.3'
-  gem 'rspec-rails', '~> 5.1'
+  gem 'rspec-rails', '~> 6.0'
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
