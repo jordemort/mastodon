@@ -12,6 +12,9 @@ module.exports = (api) => {
     debug: false,
     include: [
       'transform-numeric-separator',
+      'transform-optional-chaining',
+      'transform-nullish-coalescing-operator',
+      'transform-class-properties',
     ],
   };
 
@@ -22,10 +25,8 @@ module.exports = (api) => {
       ['@babel/env', envOptions],
     ],
     plugins: [
-      ['react-intl', { messagesDir: './build/messages' }],
+      ['formatjs'],
       'preval',
-      '@babel/plugin-transform-optional-chaining',
-      '@babel/plugin-transform-nullish-coalescing-operator',
     ],
     overrides: [
       {
