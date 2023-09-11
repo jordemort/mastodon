@@ -5,7 +5,7 @@ ARG NODE_VERSION="16-bookworm-slim"
 FROM ruby:3.2.2-bookworm as ruby
 FROM node:${NODE_VERSION} as build
 
-COPY --link --from=ruby /opt/ruby /opt/ruby
+COPY --link --from=ruby /usr/local /usr/local
 
 ENV DEBIAN_FRONTEND="noninteractive" \
     PATH="${PATH}:/opt/ruby/bin"
@@ -48,7 +48,7 @@ ARG MASTODON_VERSION_SUFFIX=""
 ARG UID="991"
 ARG GID="991"
 
-COPY --link --from=ruby /opt/ruby /opt/ruby
+COPY --link --from=ruby /usr/local /usr/local
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
