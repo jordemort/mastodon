@@ -76,8 +76,11 @@ RUN apt-get update && \
         ca-certificates \
         tzdata \
         libreadline8 \
+        libmimalloc2.0 \
         tini && \
     ln -s /opt/mastodon /mastodon
+
+ENV LD_PRELOAD=/usr/lib/libmimalloc.so
 
 # Note: no, cleaning here since Debian does this automatically
 # See the file /etc/apt/apt.conf.d/docker-clean within the Docker image's filesystem
