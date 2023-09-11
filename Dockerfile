@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.4
 # This needs to be bullseye-slim because the Ruby image is built on bullseye-slim
-ARG NODE_VERSION="16-bullseye-slim"
+ARG NODE_VERSION="16-bookworm-slim"
 
-FROM ghcr.io/moritzheiber/ruby-jemalloc:3.2.2-slim as ruby
+FROM ruby:3.2.2-bookworm as ruby
 FROM node:${NODE_VERSION} as build
 
-COPY --link --from=ruby /opt/ruby /opt/ruby
+COPY --link --from=ruby /usr/local /usr/local
 
 ENV DEBIAN_FRONTEND="noninteractive" \
     PATH="${PATH}:/opt/ruby/bin"
@@ -48,7 +48,7 @@ ARG MASTODON_VERSION_SUFFIX=""
 ARG UID="991"
 ARG GID="991"
 
-COPY --link --from=ruby /opt/ruby /opt/ruby
+COPY --link --from=ruby /usr/local /usr/local
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -64,13 +64,13 @@ RUN apt-get update && \
     apt-get -y --no-install-recommends install whois \
         wget \
         procps \
-        libssl1.1 \
+        libssl3 \
         libpq5 \
         imagemagick \
         ffmpeg \
         libjemalloc2 \
-        libicu67 \
-        libidn11 \
+        libicu72 \
+        libidn12 \
         libyaml-0-2 \
         file \
         ca-certificates \
