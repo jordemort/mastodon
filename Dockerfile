@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
-# This needs to be bullseye-slim because the Ruby image is built on bullseye-slim
-ARG NODE_VERSION="16-bookworm-slim"
+# This needs to be bookworm-slim because the Ruby image is built on bookworm-slim
+ARG NODE_VERSION="16.20-bookworm-slim"
 
 FROM ruby:3.2.2-bookworm as ruby
 FROM node:${NODE_VERSION} as build
@@ -20,7 +20,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential \
         git \
         libicu-dev \
-        libidn11-dev \
+        libidn-dev \
         libpq-dev \
         libjemalloc-dev \
         zlib1g-dev \
