@@ -3,7 +3,8 @@ ARG CONTAINER_TAG=latest
 
 glitch:
   FROM DOCKERFILE .
-  RUN cp -a /opt/mastodon/public /opt/mastodon/public.dist
+
+  RUN cp -a /opt/mastodon/public/assets /opt/mastodon/public.assets.dist
   VOLUME ["/opt/mastodon/public"]
 
   USER root
