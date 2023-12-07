@@ -5,6 +5,8 @@ glitch:
   FROM DOCKERFILE .
 
   RUN cp -a /opt/mastodon/public/assets /opt/mastodon/public.assets.dist
+  RUN cp -a /opt/mastodon/public/packs /opt/mastodon/public.packs.dist
+
   VOLUME ["/opt/mastodon/public"]
 
   USER root
