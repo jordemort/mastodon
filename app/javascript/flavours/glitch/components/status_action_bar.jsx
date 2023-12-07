@@ -109,6 +109,17 @@ class StatusActionBar extends ImmutablePureComponent {
     }
   };
 
+  handleQuoteClick = () => {
+    const { signedIn } = this.context.identity;
+
+    if (signedIn) {
+      this.props.onQuote(this.props.status, this.props.history);
+    } else {
+      // TODO(ariadne): Add an interaction modal for quoting specifically.
+      this.props.onInteractionModal('reply', this.props.status);
+    }
+  };
+
   handleShareClick = () => {
     navigator.share({
       url: this.props.status.get('url'),
@@ -138,17 +149,6 @@ class StatusActionBar extends ImmutablePureComponent {
       this.props.onInteractionModal('reblog', this.props.status);
     }
   };
-
-  handleQuoteClick = () => {
-    const { signedIn } = this.context.identity;
-
-    if (signedIn) {
-      this.props.onQuote(this.props.status, this.context.router.history);
-    } else {
-      // TODO(ariadne): Add an interaction modal for quoting specifically.
-      this.props.onInteractionModal('reply', this.props.status);
-    }
-  }
 
   handleBookmarkClick = (e) => {
     this.props.onBookmark(this.props.status, e);

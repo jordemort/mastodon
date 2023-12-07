@@ -64,7 +64,7 @@ class Status < ApplicationRecord
 
   belongs_to :thread, foreign_key: 'in_reply_to_id', class_name: 'Status', inverse_of: :replies, optional: true
   belongs_to :reblog, foreign_key: 'reblog_of_id', class_name: 'Status', inverse_of: :reblogs, optional: true
-  belongs_to :quote, foreign_key: 'quote_id', class_name: 'Status', inverse_of: :quote, optional: true
+  belongs_to :quote, foreign_key: 'quote_id', class_name: 'Status', inverse_of: :quoted, optional: true
 
   has_many :favourites, inverse_of: :status, dependent: :destroy
   has_many :bookmarks, inverse_of: :status, dependent: :destroy
@@ -76,14 +76,13 @@ class Status < ApplicationRecord
   has_many :active_mentions, -> { active }, class_name: 'Mention', inverse_of: :status
   has_many :media_attachments, dependent: :nullify
   has_many :status_reactions, inverse_of: :status, dependent: :destroy
+  has_many :quoted, foreign_key: 'quote_id', class_name: 'Status', inverse_of: :quote, dependent: :nullify
 
   # Those associations are used for the private search index
   has_many :local_mentioned, -> { merge(Account.local) }, through: :active_mentions, source: :account
   has_many :local_favorited, -> { merge(Account.local) }, through: :favourites, source: :account
   has_many :local_reblogged, -> { merge(Account.local) }, through: :reblogs, source: :account
   has_many :local_bookmarked, -> { merge(Account.local) }, through: :bookmarks, source: :account
-
-  has_many :quoted, foreign_key: 'quote_id', class_name: 'Status', inverse_of: :quote, dependent: :nullify
 
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :preview_cards
