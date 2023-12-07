@@ -17,8 +17,6 @@ import { maxChars } from 'flavours/glitch/initial_state';
 import { isMobile } from 'flavours/glitch/is_mobile';
 import { WithOptionalRouterPropTypes, withOptionalRouter } from 'flavours/glitch/utils/react_router';
 
-import AutosuggestInput from '../../../components/autosuggest_input';
-import AutosuggestTextarea from '../../../components/autosuggest_textarea';
 import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import OptionsContainer from '../containers/options_container';
 import PollFormContainer from '../containers/poll_form_container';
