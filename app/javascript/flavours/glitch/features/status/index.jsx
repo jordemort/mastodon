@@ -25,6 +25,7 @@ import { initBlockModal } from '../../actions/blocks';
 import { initBoostModal } from '../../actions/boosts';
 import {
   replyCompose,
+  quoteCompose,
   mentionCompose,
   directCompose,
 } from '../../actions/compose';
@@ -357,6 +358,21 @@ class Status extends ImmutablePureComponent {
       }));
     }
   };
+
+  handleQuoteClick = (status) => {
+    const { dispatch } = this.props;
+    const { signedIn } = this.context.identity;
+
+    if (signedIn) {
+      dispatch(quoteCompose(status, this.context.router.history));
+    } else {
+      dispatch(openModal('INTERACTION', {
+        type: 'reply',
+        accountId: status.getIn(['account', 'id']),
+        url: status.get('url'),
+      }));
+    }
+  }
 
   handleModalReblog = (status, privacy) => {
     const { dispatch } = this.props;
@@ -775,6 +791,7 @@ class Status extends ImmutablePureComponent {
                   onReactionAdd={this.handleReactionAdd}
                   onReblog={this.handleReblogClick}
                   onBookmark={this.handleBookmarkClick}
+                  onQuote={this.handleQuoteClick}
                   onDelete={this.handleDeleteClick}
                   onEdit={this.handleEditClick}
                   onDirect={this.handleDirectClick}

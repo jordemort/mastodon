@@ -85,6 +85,7 @@ class Status extends ImmutablePureComponent {
     nextInReplyToId: PropTypes.string,
     rootId: PropTypes.string,
     onReply: PropTypes.func,
+    onQuote: PropTypes.func,
     onFavourite: PropTypes.func,
     onReblog: PropTypes.func,
     onBookmark: PropTypes.func,
@@ -731,7 +732,7 @@ class Status extends ImmutablePureComponent {
       if (!status.get('sensitive') && !(status.get('spoiler_text').length > 0) && settings.getIn(['collapsed', 'backgrounds', 'preview_images'])) {
         background = attachments.getIn([0, 'preview_url']);
       }
-    } else if (status.get('card') && settings.get('inline_preview_cards') && !this.props.muted) {
+    } else if (!status.get('quote') && status.get('card') && settings.get('inline_preview_cards') && !this.props.muted) {
       media.push(
         <Card
           onOpenMedia={this.handleOpenMedia}
