@@ -8,6 +8,8 @@ import {
   COMPOSE_REPLY,
   COMPOSE_REPLY_CANCEL,
   COMPOSE_DIRECT,
+  COMPOSE_QUOTE,
+  COMPOSE_QUOTE_CANCEL,
   COMPOSE_MENTION,
   COMPOSE_SUBMIT_REQUEST,
   COMPOSE_SUBMIT_SUCCESS,
@@ -87,6 +89,7 @@ const initialState = ImmutableMap({
   caretPosition: null,
   preselectDate: null,
   in_reply_to: null,
+  quote_id: null,
   is_submitting: false,
   is_uploading: false,
   is_changing_upload: false,
@@ -175,6 +178,7 @@ function clearAll(state) {
     map.set('is_submitting', false);
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
+    map.set('quote_id', null);
     map.update(
       'advanced_options',
       map => map.mergeWith(overwrite, state.get('default_advanced_options')),
@@ -415,6 +419,7 @@ export default function compose(state = initialState, action) {
     return state.withMutations(map => {
       map.set('id', null);
       map.set('in_reply_to', action.status.get('id'));
+      map.set('quote_id', null);
       map.set('text', statusToTextMentions(state, action.status));
       map.set('privacy', privacyPreference(action.status.get('visibility'), state.get('default_privacy')));
       map.update(
@@ -449,6 +454,23 @@ export default function compose(state = initialState, action) {
   case COMPOSE_REPLY_CANCEL:
     state = state.setIn(['advanced_options', 'threaded_mode'], false);
     // eslint-disable-next-line no-fallthrough -- fall-through to `COMPOSE_RESET` is intended
+  case COMPOSE_QUOTE:
+    return state.withMutations(map => {
+      map.set('id', null);
+      map.set('in_reply_to', null);
+      map.set('quote_id', action.status.get('id'));
+      map.set('text', '');
+      map.set('privacy', privacyPreference(action.status.get('visibility'), state.get('default_privacy')));
+      map.update(
+        'advanced_options',
+        map => map.merge(new ImmutableMap({ do_not_federate: !!action.status.get('local_only') }))
+      );
+      map.set('focusDate', new Date());
+      map.set('caretPosition', null);
+      map.set('preselectDate', new Date());
+      map.set('idempotencyKey', uuid());
+    });
+  case COMPOSE_QUOTE_CANCEL:
   case COMPOSE_RESET:
     return state.withMutations(map => {
       map.set('in_reply_to', null);
