@@ -152,10 +152,12 @@ export default class Card extends PureComponent {
     const title       = interactive ? <a className='status-card__title' href={card.get('url')} title={card.get('title')} rel='noopener noreferrer' target='_blank'><strong>{card.get('title')}</strong></a> : <strong className='status-card__title' title={card.get('title')}>{card.get('title')}</strong>;
     const language    = card.get('language') || '';
 
+    const descriptionContent = card.get('description');
+
     const description = (
       <div className='status-card__content' lang={language}>
         {title}
-        <p className='status-card__description' title={card.get('description')}>{card.get('description')}</p>
+        {descriptionContent && <p className='status-card__description' title={descriptionContent}>{descriptionContent}</p>}
         <span className='status-card__host'>{provider}</span>
       </div>
     );
