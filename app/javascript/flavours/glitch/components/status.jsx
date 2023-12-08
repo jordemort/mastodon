@@ -735,14 +735,24 @@ class Status extends ImmutablePureComponent {
     }
 
     if (!status.get('quote') && status.get('card') && settings.get('inline_preview_cards') && !this.props.muted) {
-      media.push(
-        <Card
-          onOpenMedia={this.handleOpenMedia}
-          card={status.get('card')}
-          compact
-          sensitive={status.get('sensitive')}
-        />,
-      );
+      if (media.length) {
+        media.push(
+          <Card
+            onOpenMedia={this.handleOpenMedia}
+            card={status.get('card')}
+            compact
+            sensitive={status.get('sensitive')}
+          />,
+        );
+      } else {
+        media.push(
+          <Card
+            onOpenMedia={this.handleOpenMedia}
+            card={status.get('card')}
+            sensitive={status.get('sensitive')}
+          />,
+        );
+      }
       mediaIcons.push('link');
     }
 
