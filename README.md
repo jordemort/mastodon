@@ -16,4 +16,5 @@ I make no representations with regard to being up-to-date, functional, maintaine
 - Allow posting media alongside polls: https://github.com/glitch-soc/mastodon/pull/2524
 - Allow non-ASCII characters in emoji names: https://github.com/glitch-soc/mastodon/pull/
 - robots.txt generated from https://darkvisitors.com/ (also borrowed from NeuromatchAcademy)
+- Some tweaks around how status cards and links are displayed, because I fucking hate shit getting truncated
 - "Post" is now "Squonk"
