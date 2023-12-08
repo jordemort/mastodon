@@ -155,7 +155,7 @@ export default class Card extends PureComponent {
     const description = (
       <div className='status-card__content' lang={language}>
         {title}
-        {!(horizontal || compact) && <p className='status-card__description' title={card.get('description')}>{card.get('description')}</p>}
+        <p className='status-card__description' title={card.get('description')}>{card.get('description')}</p>
         <span className='status-card__host'>{provider}</span>
       </div>
     );
@@ -225,7 +225,7 @@ export default class Card extends PureComponent {
       return (
         <div className={className} ref={this.setRef} onClick={revealed ? null : this.handleReveal} role={revealed ? 'button' : null}>
           {embed}
-          {!compact && description}
+          {description}
         </div>
       );
     } else if (card.get('image')) {
