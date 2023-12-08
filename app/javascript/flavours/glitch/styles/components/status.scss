@@ -68,7 +68,8 @@
   }
 
   p,
-  pre {
+  pre,
+  blockquote {
     margin-bottom: 20px;
     white-space: pre-wrap;
     unicode-bidi: plaintext;
@@ -919,9 +920,9 @@ a.status-card {
   font-weight: 500;
   margin-bottom: 5px;
   color: $darker-text-color;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  //overflow: hidden;
+  //text-overflow: ellipsis;
+  //white-space: nowrap;
   text-decoration: none;
 }
 
@@ -993,9 +994,11 @@ a.status-card {
     padding-top: 10px;
   }
 
+  /*
   .status-card__title {
     white-space: nowrap;
   }
+  */
 
   .status-card__image {
     flex: 0 0 60px;
