@@ -128,6 +128,7 @@ export default class Card extends PureComponent {
     const language    = card.get('language') || '';
     const largeImage  = (card.get('image')?.length > 0 && card.get('width') > card.get('height')) || interactive;
     const showAuthor  = !!card.getIn(['authors', 0, 'accountId']);
+    const descriptionContent = card.get('description');
 
     const description = (
       <div className='status-card__content'>
@@ -138,7 +139,8 @@ export default class Card extends PureComponent {
 
         <strong className='status-card__title' title={card.get('title')} lang={language}>{card.get('title')}</strong>
 
-        {!showAuthor && (card.get('author_name').length > 0 ? <span className='status-card__author'><FormattedMessage id='link_preview.author' defaultMessage='By {name}' values={{ name: <strong>{card.get('author_name')}</strong> }} /></span> : <span className='status-card__description' lang={language}>{card.get('description')}</span>)}
+        {!showAuthor && (card.get('author_name').length > 0 && <span className='status-card__author'><FormattedMessage id='link_preview.author' defaultMessage='By {name}' values={{ name: <strong>{card.get('author_name')}</strong> }} /></span>)}
+        {descriptionContent && <span className='status-card__description' lang={language}>{descriptionContent}</span>}
       </div>
     );
 
