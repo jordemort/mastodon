@@ -15,7 +15,7 @@ import { Icon }  from 'mastodon/components/icon';
 import PollContainer from 'mastodon/containers/poll_container';
 import { autoPlayGif, languages as preloadedLanguages } from 'mastodon/initial_state';
 
-const MAX_HEIGHT = 706; // 22px * 32 (+ 2px padding at the top)
+const MAX_HEIGHT = 960; // arbitrary number fresh from my ass
 
 /**
  *
