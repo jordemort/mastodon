@@ -742,7 +742,7 @@ class Status extends ImmutablePureComponent {
       bookmark: this.handleHotkeyBookmark,
       mention: this.handleHotkeyMention,
       openProfile: this.handleHotkeyOpenProfile,
-      toggleSpoiler: this.handleToggleHidden,
+      toggleHidden: this.handleToggleHidden,
       toggleSensitive: this.handleHotkeyToggleSensitive,
       openMedia: this.handleHotkeyOpenMedia,
     };
