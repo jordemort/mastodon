@@ -5227,6 +5227,7 @@ a.status-card {
 
 .modal-root__modal {
   pointer-events: auto;
+  user-select: text;
   display: flex;
 }
 
