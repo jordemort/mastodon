@@ -405,6 +405,8 @@ class ZoomableImage extends PureComponent {
     this.image = c;
   };
 
+  handleAltClick = e => { e.stopPropagation(); };
+
   render () {
     const { alt, lang, src, width, height, intl } = this.props;
     const { scale, lockTranslate } = this.state;
@@ -447,6 +449,7 @@ class ZoomableImage extends PureComponent {
             onMouseDown={this.handleMouseDown}
           />
         </div>
+        {alt && <div className='zoomable-image-alt' onClick={this.handleAltClick}>{alt}</div>}
       </>
     );
   }
