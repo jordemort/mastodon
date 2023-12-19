@@ -157,7 +157,7 @@ export default class Card extends PureComponent {
     const description = (
       <div className='status-card__content' lang={language}>
         {title}
-        {descriptionContent && <p className='status-card__description' title={descriptionContent}>{descriptionContent}</p>}
+        {descriptionContent && (descriptionContent != title) && <p className='status-card__description' title={descriptionContent}>{descriptionContent}</p>}
         <span className='status-card__host'>{provider}</span>
       </div>
     );
