@@ -351,10 +351,21 @@ body > [data-popper-placement] {
   }
 }
 
+/*
 .ellipsis {
   &::after {
     content: '…';
   }
+}
+*/
+
+.ellipsis + .invisible {
+  width: auto;
+  height: auto;
+  line-height: revert;
+  font-size: revert;
+  position: revert;
+  display: revert;
 }
 
 .notification__favourite-icon-wrapper {
