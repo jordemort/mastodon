@@ -168,6 +168,10 @@ class ZoomableImage extends PureComponent {
     this.container.addEventListener('DOMMouseScroll', handler);
     this.removers.push(() => this.container.removeEventListener('DOMMouseScroll', handler));
 
+    handler = this.resizeHandler;
+    window.addEventListener('resize', handler);
+    this.removers.push(() => window.removeEventListener('resize', handler));
+
     this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
     this.initZoomMatrix();
   }
@@ -409,7 +413,7 @@ class ZoomableImage extends PureComponent {
 
   handleAltClick = e => { e.stopPropagation(); };
 
-  resize() {
+  resizeHandler() {
     this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
   }
 
