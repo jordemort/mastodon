@@ -789,10 +789,12 @@
 
 .gifv {
   min-width: 60%;
+  background-color: rgba(0,0,0,0.5);
 
   video {
     max-width: 100vw;
     max-height: 80vh;
     width: 100%;
+    margin: 1em;
   }
 }
