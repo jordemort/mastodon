@@ -35,7 +35,10 @@ export const GIFV: React.FC<Props> = ({
     [onClick],
   );
 
+  const handleAltClick: React.MouseEventHandler = (e) => { e.stopPropagation(); };
+
   return (
+    <>
     <div className='gifv' style={{ position: 'relative' }}>
       {loading && (
         <canvas
@@ -66,5 +69,7 @@ export const GIFV: React.FC<Props> = ({
         style={{ position: loading ? 'absolute' : 'static', top: 0, left: 0 }}
       />
     </div>
+    {alt && <div className='zoomable-image-alt' onClick={handleAltClick}>{alt}</div>}
+    </>
   );
 };

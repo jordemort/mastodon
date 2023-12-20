@@ -1818,12 +1818,14 @@ a.account__display-name {
   &.activate {
     & > .icon {
       animation: spring-rotate-in 1s linear;
+      transform-origin: 50% 55%;
     }
   }
 
   &.deactivate {
     & > .icon {
       animation: spring-rotate-out 1s linear;
+      transform-origin: 50% 55%;
     }
   }
 }
@@ -1919,7 +1921,9 @@ a.account__display-name {
     width: auto;
     height: auto;
     object-fit: contain;
-    min-width: 80%;
+    background-color: rgba(0,0,0.5);
+    min-width: 60%;
+    min-height: 40%;
   }
 }
 
@@ -5225,6 +5229,7 @@ a.status-card {
 
 .modal-root__modal {
   pointer-events: auto;
+  user-select: text;
   display: flex;
 }
 

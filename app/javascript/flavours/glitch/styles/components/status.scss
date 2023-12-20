@@ -936,7 +936,7 @@ a.status-card {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  //-webkit-line-clamp: 2;
+  -webkit-line-clamp: 10;
 }
 
 .status-card__host {
