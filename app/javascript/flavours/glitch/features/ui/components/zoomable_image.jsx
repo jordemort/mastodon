@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import { PureComponent, useLayoutEffect, useState } from 'react';
 
 import { defineMessages, injectIntl } from 'react-intl';
 
@@ -91,6 +91,19 @@ const normalizeWheel = event => {
     pixelX: pX,
     pixelY: pY,
   };
+};
+
+const useWindowSize = () => {
+  const [windowSize, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      setSize([window.innerWidth, window.innerHeight]);
+    };
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return windowSize;
 };
 
 class ZoomableImage extends PureComponent {
@@ -413,6 +426,10 @@ class ZoomableImage extends PureComponent {
     const overflow = scale === MIN_SCALE ? 'hidden' : 'scroll';
     const zoomButtonShouldHide = this.state.navigationHidden || this.props.zoomButtonHidden || this.state.zoomMatrix.rate <= MIN_SCALE ? 'media-modal__zoom-button--hidden' : '';
     const zoomButtonTitle = this.state.zoomState === 'compress' ? intl.formatMessage(messages.compress) : intl.formatMessage(messages.expand);
+    const [windowWidth, windowHeight] = useWindowSize();
+    const imageToWindowWidth = (windowWidth * 0.9) / width;
+    const imageToWindowHeight = (windowHeight * 0.8) / height;
+    const sizeMultiplier = min(imageToWindowWidth, imageToWindowHeight);
 
     return (
       <>
@@ -443,6 +460,8 @@ class ZoomableImage extends PureComponent {
             style={{
               transform: `scale(${scale}) translate(-${lockTranslate.x}px, -${lockTranslate.y}px)`,
               transformOrigin: '0 0',
+              width: `${Math.floor(width * sizeMultiplier)}px`,
+              height: `${Math.floor(height * sizeMultiplier)}px`
             }}
             draggable={false}
             onClick={this.handleClick}
