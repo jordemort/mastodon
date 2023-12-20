@@ -421,7 +421,7 @@ class ZoomableImage extends PureComponent {
     const zoomButtonTitle = this.state.zoomState === 'compress' ? intl.formatMessage(messages.compress) : intl.formatMessage(messages.expand);
     const imageToWindowWidth = (this.state.windowSize.width * 0.9) / width;
     const imageToWindowHeight = (this.state.windowSize.height * 0.8) / height;
-    const sizeMultiplier = min(imageToWindowWidth, imageToWindowHeight);
+    const sizeMultiplier = Math.min(imageToWindowWidth, imageToWindowHeight);
 
     return (
       <>
