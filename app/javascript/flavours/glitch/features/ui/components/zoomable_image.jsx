@@ -448,8 +448,8 @@ class ZoomableImage extends PureComponent {
             onClick={this.handleClick}
             onMouseDown={this.handleMouseDown}
           />
+          {alt && <div className='zoomable-image-alt' onClick={this.handleAltClick}>{alt}</div>}
         </div>
-        {alt && <div className='zoomable-image-alt' onClick={this.handleAltClick}>{alt}</div>}
       </>
     );
   }
