@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PureComponent, useLayoutEffect, useState } from 'react';
+import { PureComponent } from 'react';
 
 import { defineMessages, injectIntl } from 'react-intl';
 
@@ -93,19 +93,6 @@ const normalizeWheel = event => {
   };
 };
 
-const useWindowSize = () => {
-  const [windowSize, setSize] = useState([0, 0]);
-  useLayoutEffect(() => {
-    const updateSize = () => {
-      setSize([window.innerWidth, window.innerHeight]);
-    };
-    window.addEventListener("resize", updateSize);
-    updateSize();
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
-  return windowSize;
-};
-
 class ZoomableImage extends PureComponent {
 
   static propTypes = {
@@ -148,6 +135,7 @@ class ZoomableImage extends PureComponent {
     dragged: false,
     lockScroll: { x: 0, y: 0 },
     lockTranslate: { x: 0, y: 0 },
+    windowSize: {width: 0, height: 0},
   };
 
   removers = [];
@@ -180,6 +168,7 @@ class ZoomableImage extends PureComponent {
     this.container.addEventListener('DOMMouseScroll', handler);
     this.removers.push(() => this.container.removeEventListener('DOMMouseScroll', handler));
 
+    this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
     this.initZoomMatrix();
   }
 
@@ -420,15 +409,18 @@ class ZoomableImage extends PureComponent {
 
   handleAltClick = e => { e.stopPropagation(); };
 
+  resize() {
+    this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
+  }
+
   render () {
     const { alt, lang, src, width, height, intl } = this.props;
     const { scale, lockTranslate } = this.state;
     const overflow = scale === MIN_SCALE ? 'hidden' : 'scroll';
     const zoomButtonShouldHide = this.state.navigationHidden || this.props.zoomButtonHidden || this.state.zoomMatrix.rate <= MIN_SCALE ? 'media-modal__zoom-button--hidden' : '';
     const zoomButtonTitle = this.state.zoomState === 'compress' ? intl.formatMessage(messages.compress) : intl.formatMessage(messages.expand);
-    const [windowWidth, windowHeight] = useWindowSize();
-    const imageToWindowWidth = (windowWidth * 0.9) / width;
-    const imageToWindowHeight = (windowHeight * 0.8) / height;
+    const imageToWindowWidth = (this.state.windowSize.width * 0.9) / width;
+    const imageToWindowHeight = (this.state.windowSize.height * 0.8) / height;
     const sizeMultiplier = min(imageToWindowWidth, imageToWindowHeight);
 
     return (
