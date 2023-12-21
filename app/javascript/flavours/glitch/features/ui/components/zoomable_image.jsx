@@ -413,11 +413,11 @@ class ZoomableImage extends PureComponent {
 
   handleAltClick = e => { e.stopPropagation(); };
 
-  handleResize() {
+  handleResize = () => {
     this._updatePreScale();
   }
 
-  _updatePreScale() {
+  _updatePreScale = () => {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
