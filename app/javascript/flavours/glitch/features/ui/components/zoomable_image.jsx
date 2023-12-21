@@ -135,7 +135,7 @@ class ZoomableImage extends PureComponent {
     dragged: false,
     lockScroll: { x: 0, y: 0 },
     lockTranslate: { x: 0, y: 0 },
-    windowSize: {width: 0, height: 0},
+    preScale: 1,
   };
 
   removers = [];
@@ -168,11 +168,11 @@ class ZoomableImage extends PureComponent {
     this.container.addEventListener('DOMMouseScroll', handler);
     this.removers.push(() => this.container.removeEventListener('DOMMouseScroll', handler));
 
-    handler = this.resizeHandler;
+    handler = this.handleResize;
     window.addEventListener('resize', handler);
     this.removers.push(() => window.removeEventListener('resize', handler));
 
-    this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
+    this._updatePreScale();
     this.initZoomMatrix();
   }
 
@@ -413,8 +413,27 @@ class ZoomableImage extends PureComponent {
 
   handleAltClick = e => { e.stopPropagation(); };
 
-  resizeHandler() {
-    this.setState({windowSize: {width: window.innerWidth, height: window.innerHeight}});
+  handleResize() {
+    this._updatePreScale();
+  }
+
+  _updatePreScale() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = windows.innerHeight;
+
+    let imageToWindowWidth = windowWidth / this.props.width;
+
+    if (imageToWindowWidth > 1) {
+      if (this.props.width >= (windowWidth * 0.8)) {
+        imageToWindowWidth = 1;
+      } else {
+        imageToWindowWidth = imageToWindowWidth * 0.8;
+      }
+    }
+
+    let imageToWindowHeight = (windowHeight * 0.8) / this.props.height;
+
+    this.setState({ preScale: Math.min(imageToWindowWidth, imageToWindowHeight) });
   }
 
   render () {
@@ -423,9 +442,6 @@ class ZoomableImage extends PureComponent {
     const overflow = scale === MIN_SCALE ? 'hidden' : 'scroll';
     const zoomButtonShouldHide = this.state.navigationHidden || this.props.zoomButtonHidden || this.state.zoomMatrix.rate <= MIN_SCALE ? 'media-modal__zoom-button--hidden' : '';
     const zoomButtonTitle = this.state.zoomState === 'compress' ? intl.formatMessage(messages.compress) : intl.formatMessage(messages.expand);
-    const imageToWindowWidth = (this.state.windowSize.width * 0.9) / width;
-    const imageToWindowHeight = (this.state.windowSize.height * 0.8) / height;
-    const sizeMultiplier = Math.min(imageToWindowWidth, imageToWindowHeight);
 
     return (
       <>
@@ -451,13 +467,11 @@ class ZoomableImage extends PureComponent {
             title={alt}
             lang={lang}
             src={src}
-            width={width}
-            height={height}
+            width={Math.floor(width * this.state.preScale)}
+            height={Math.floor(height * this.state.preScale)}
             style={{
               transform: `scale(${scale}) translate(-${lockTranslate.x}px, -${lockTranslate.y}px)`,
               transformOrigin: '0 0',
-              width: `${Math.floor(width * sizeMultiplier)}px`,
-              height: `${Math.floor(height * sizeMultiplier)}px`
             }}
             draggable={false}
             onClick={this.handleClick}
