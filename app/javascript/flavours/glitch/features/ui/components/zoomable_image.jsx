@@ -419,7 +419,7 @@ class ZoomableImage extends PureComponent {
 
   _updatePreScale() {
     const windowWidth = window.innerWidth;
-    const windowHeight = windows.innerHeight;
+    const windowHeight = window.innerHeight;
 
     let imageToWindowWidth = windowWidth / this.props.width;
 
