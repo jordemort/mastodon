@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useLayoutEffect } from 'react';
 
 interface Props {
   src: string;
@@ -19,6 +19,31 @@ export const GIFV: React.FC<Props> = ({
   onClick,
 }) => {
   const [loading, setLoading] = useState(true);
+  const [preScale, setPreScale] = useState(1);
+
+  useLayoutEffect(() => {
+    function updatePreScale() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      let imageToWindowWidth = windowWidth / width;
+
+      if (imageToWindowWidth > 1) {
+        if (width >= (windowWidth * 0.8)) {
+          imageToWindowWidth = 1;
+        } else {
+          imageToWindowWidth = imageToWindowWidth * 0.8;
+        }
+      }
+
+      let imageToWindowHeight = (windowHeight * 0.8) / height;
+
+      setPreScale(Math.min(imageToWindowWidth, imageToWindowHeight));
+    };
+    window.addEventListener('resize', updatePreScale);
+    updatePreScale();
+    return () => window.removeEventListener('resize', updatePreScale);
+  }, []);
 
   const handleLoadedData: React.ReactEventHandler<HTMLVideoElement> =
     useCallback(() => {
@@ -36,14 +61,16 @@ export const GIFV: React.FC<Props> = ({
   );
 
   const handleAltClick: React.MouseEventHandler = (e) => { e.stopPropagation(); };
+  const scaledWidth = Math.floor(width * preScale);
+  const scaledHeight = Math.floor(height * preScale);
 
   return (
     <>
-    <div className='gifv' style={{ position: 'relative' }}>
+    <div className='gifv' style={{ position: 'relative', width: scaledWidth, height: scaledHeight  }}>
       {loading && (
         <canvas
-          width={width}
-          height={height}
+          width={scaledWidth}
+          height={scaledHeight}
           role='button'
           tabIndex={0}
           aria-label={alt}
