@@ -316,10 +316,12 @@
 }
 
 .status {
-  padding: 10px 14px;
+  padding: 15px;
   position: relative;
   height: auto;
-  border-bottom: 1px solid lighten($ui-base-color, 8%);
+  border-top: 1px solid lighten($ui-base-color, 8%);
+  border-bottom: 1px solid darken($ui-base-color, 8%);
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.2));
   cursor: auto;
 
   @supports (-ms-overflow-style: -ms-autohiding-scrollbar) {
@@ -477,6 +479,12 @@
       color: lighten($action-button-color, 13%);
     }
   }
+}
+
+.status[data-boosted-by] {
+  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+  margin: 15px;
+  border-radius: 0.5em;
 }
 
 .status__relative-time {
@@ -827,8 +835,9 @@ a.status__display-name,
   position: relative;
   display: flex;
   //font-size: 14px;
-  border: 1px solid lighten($ui-base-color, 8%);
-  border-radius: 4px;
+  border-top: 1px solid lighten($ui-base-color, 8%);
+  border-bottom: 1px solid darken($ui-base-color, 8%);
+  border-radius: 0.5em;
   color: $dark-text-color;
   margin-top: 14px;
   text-decoration: none;
@@ -929,6 +938,8 @@ a.status-card {
   overflow: hidden;
   padding: 14px;
   padding-inline-start: 8px;
+  background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+
 }
 
 .status-card__description {
