@@ -460,6 +460,7 @@ class ZoomableImage extends PureComponent {
           ref={this.setContainerRef}
           style={{ overflow }}
         >
+          <figure>
           <img
             role='presentation'
             ref={this.setImageRef}
@@ -477,7 +478,8 @@ class ZoomableImage extends PureComponent {
             onClick={this.handleClick}
             onMouseDown={this.handleMouseDown}
           />
-          {alt && <div className='zoomable-image-alt' onClick={this.handleAltClick}>{alt}</div>}
+          {alt && <figcaption className='media-modal__caption' onClick={this.handleAltClick}>{alt}</figcaption>}
+          </figure>
         </div>
       </>
     );

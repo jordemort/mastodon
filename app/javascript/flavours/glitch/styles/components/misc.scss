@@ -534,7 +534,7 @@ body > [data-popper-placement] {
   }
 }
 
-.zoomable-image-alt {
+.media-modal__caption {
   white-space: pre-wrap;
   max-width: 50%;
   color: white;
@@ -551,7 +551,7 @@ body > [data-popper-placement] {
   user-select: text;
 }
 
-.zoomable-image-alt:hover {
+.media-modal__caption:hover {
   background-color: rgba(0,0,0,0.9);
   opacity: 1;
 }
