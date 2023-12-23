@@ -563,6 +563,7 @@ body > [data-popper-placement] {
   max-height: 100%;
   height: auto;
   mask-image: unset;
+  overflow: scroll;
 }
 
 .dropdown-animation {
