@@ -179,12 +179,12 @@ class Status < ApplicationRecord
                    quote: [
                      :application,
                      :tags,
-                     :preview_cards,
                      :media_attachments,
                      :conversation,
                      :status_stat,
                      :preloadable_poll,
-                     account: [:account_stat, :user],
+                     preview_cards_status: [:preview_card],
+                     account: [:account_stat, user: :role],
                      active_mentions: { account: :account_stat },
                    ],
                    thread: { account: :account_stat }
