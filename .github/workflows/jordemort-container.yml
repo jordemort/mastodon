@@ -57,4 +57,4 @@ jobs:
           CONTAINER_TAG=$(echo "${RAW_CONTAINER_TAG:0:128}" | sed 's/[^a-zA-Z0-9]\+/-/g')
 
           earthly build --ci ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && '--push' || '' }} \
-            +glitch --CONTAINER_TAG="$CONTAINER_TAG"
+            +all --CONTAINER_TAG="$CONTAINER_TAG"
