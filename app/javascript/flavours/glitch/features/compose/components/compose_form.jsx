@@ -126,7 +126,7 @@ class ComposeForm extends ImmutablePureComponent {
     return !(isSubmitting || isUploading || isChangingUpload || length(fulltext) > maxChars || (!fulltext.trim().length && !anyMedia));
   };
 
-  handleSubmit = (overriddenVisibility = null) => {
+  handleSubmit = (e, overriddenVisibility = null) => {
     if (this.props.text !== this.textareaRef.current.value) {
       // Something changed the text inside the textarea (e.g. browser extensions like Grammarly)
       // Update the state to match the current text
@@ -135,6 +135,10 @@ class ComposeForm extends ImmutablePureComponent {
 
     if (!this.canSubmit()) {
       return;
+    }
+
+    if (e) {
+      e.preventDefault();
     }
 
     // Submit unless there are media with missing descriptions
@@ -151,10 +155,8 @@ class ComposeForm extends ImmutablePureComponent {
 
   //  Handles the secondary submit button.
   handleSecondarySubmit = () => {
-    const {
-      sideArm,
-    } = this.props;
-    this.handleSubmit(sideArm === 'none' ? null : sideArm);
+    const { sideArm } = this.props;
+    this.handleSubmit(null, sideArm === 'none' ? null : sideArm);
   };
 
   onSuggestionsClearRequested = () => {
@@ -344,7 +346,6 @@ class ComposeForm extends ImmutablePureComponent {
           disabled={!this.canSubmit()}
           isEditing={isEditing}
           onSecondarySubmit={this.handleSecondarySubmit}
-          onSubmit={this.handleSubmit}
           privacy={privacy}
           sideArm={sideArm}
         />
