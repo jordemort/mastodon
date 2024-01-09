@@ -83,9 +83,6 @@ RUN \
 # Set /opt/mastodon as working directory
 WORKDIR /opt/mastodon
 
-# Precompile assets
-RUN OTP_SECRET=precompile_placeholder SECRET_KEY_BASE=precompile_placeholder RAILS_ENV=production bundle exec rails assets:clobber
-RUN OTP_SECRET=precompile_placeholder SECRET_KEY_BASE=precompile_placeholder RAILS_ENV=production bundle exec rails yarn:install assets:precompile
 # hadolint ignore=DL3008,DL3005
 RUN \
 # Mount Apt cache and lib directories from Docker buildx caches
