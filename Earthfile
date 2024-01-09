@@ -17,7 +17,7 @@ web:
   SAVE IMAGE --push ghcr.io/jordemort/mastodon-web:${CONTAINER_TAG}
 
 streaming:
-  FROM DOCKERFILE streaming
+  FROM DOCKERFILE ./streaming
 
   SAVE IMAGE --push ghcr.io/jordemort/mastodon-streaming:${CONTAINER_TAG}
 
