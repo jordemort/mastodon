@@ -12,6 +12,8 @@ import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'flavours/
 import { accountAdminLink, statusAdminLink } from 'flavours/glitch/utils/backend_links';
 import { WithRouterPropTypes } from 'flavours/glitch/utils/react_router';
 
+import FormatQuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
+
 import DropdownMenuContainer from '../containers/dropdown_menu_container';
 import { me } from '../initial_state';
 
@@ -299,6 +301,8 @@ class StatusActionBar extends ImmutablePureComponent {
     const reblogPrivate = status.getIn(['account', 'id']) === me && status.get('visibility') === 'private';
 
     let reblogTitle = '';
+    let quoteTitle, quoteIconComponent;
+
     if (status.get('reblogged')) {
       reblogTitle = intl.formatMessage(messages.cancel_reblog_private);
     } else if (publicStatus) {
@@ -307,6 +311,18 @@ class StatusActionBar extends ImmutablePureComponent {
       reblogTitle = intl.formatMessage(messages.reblog_private);
     } else {
       reblogTitle = intl.formatMessage(messages.cannot_reblog);
+    }
+
+    // quotes
+    if (publicStatus) {
+      quoteTitle = intl.formatMessage(messages.quote);
+      quoteIconComponent = FormatQuoteIcon;
+    } else if (reblogPrivate) {
+      quoteTitle = intl.formatMessage(messages.reblog_private);
+      quoteIconComponent = FormatQuoteIcon;
+    } else {
+      quoteTitle = intl.formatMessage(messages.cannot_reblog);
+      quoteIconComponent = FormatQuoteIcon;
     }
 
     const filterButton = this.props.onFilter && (
@@ -324,7 +340,7 @@ class StatusActionBar extends ImmutablePureComponent {
           obfuscateCount
         />
         <IconButton className={classNames('status__action-bar-button', { reblogPrivate })} disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle} icon={reblogIcon} onClick={this.handleReblogClick} counter={withCounters ? status.get('reblogs_count') : undefined} />
-        <IconButton className='status__action-bar-button' disabled={!publicStatus} title={!publicStatus ? intl.formatMessage(messages.cannot_reblog) : intl.formatMessage(messages.quote)} icon='quote-right' onClick={this.handleQuoteClick} />
+        <IconButton className={classNames('status__action-bar-button', { reblogPrivate })} disabled={!publicStatus && !reblogPrivate} /* active={status.get('reblogged')} */ title={quoteTitle} icon={quoteIcon} iconComponent={quoteIconComponent} onClick={this.handleQuoteClick} />
 
         <IconButton className='status__action-bar-button star-icon' animate active={status.get('favourited')} title={intl.formatMessage(messages.favourite)} icon='star' onClick={this.handleFavouriteClick} counter={withCounters ? status.get('favourites_count') : undefined} />
         <IconButton className='status__action-bar-button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark' onClick={this.handleBookmarkClick} />

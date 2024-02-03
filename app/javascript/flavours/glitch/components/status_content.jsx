@@ -9,6 +9,8 @@ import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
+import QuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
+
 import { Icon } from 'flavours/glitch/components/icon';
 import { autoPlayGif, languages as preloadedLanguages } from 'flavours/glitch/initial_state';
 import { decode as decodeIDNA } from 'flavours/glitch/utils/idna';
@@ -374,8 +376,9 @@ class StatusContent extends PureComponent {
                   fixedWidth
                   id='quote-right'
                   aria-hidden='true'
-                  key='icon-quote-right' />
-                <strong class="display-name__html">
+                  key='icon-quote-right'
+                  iconComponent={QuoteIcon} />
+                <strong className='display-name__html'>
                   <a onClick={this.handleAccountClick} href={quoteStatus.getIn(['account', 'url'])} dangerouslySetInnerHTML={quoteStatusDisplayName} />
                 </strong>
               </span>
