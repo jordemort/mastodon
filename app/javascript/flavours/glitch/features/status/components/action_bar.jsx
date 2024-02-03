@@ -12,6 +12,7 @@ import AddReactionIcon from '@/material-icons/400-24px/add_reaction.svg?react';
 import BookmarkIcon from '@/material-icons/400-24px/bookmark-fill.svg?react';
 import BookmarkBorderIcon from '@/material-icons/400-24px/bookmark.svg?react';
 import MoreHorizIcon from '@/material-icons/400-24px/more_horiz.svg?react';
+import QuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
 import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
 import ReplyIcon from '@/material-icons/400-24px/reply.svg?react';
 import ReplyAllIcon from '@/material-icons/400-24px/reply_all.svg?react';
@@ -281,7 +282,7 @@ class ActionBar extends PureComponent {
       <div className='detailed-status__action-bar'>
         <div className='detailed-status__button'><IconButton title={intl.formatMessage(messages.reply)} icon={replyIcon} iconComponent={replyIconComponent} onClick={this.handleReplyClick} /></div>
         <div className='detailed-status__button'><IconButton className={classNames({ reblogPrivate })} disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle} icon='retweet' iconComponent={reblogIconComponent} onClick={this.handleReblogClick} /></div>
-        <div className='detailed-status__button'><IconButton className='quote-right-icon' disabled={!publicStatus} title={intl.formatMessage(messages.quote)} icon='quote-right' onClick={this.handleQuoteClick} /></div>
+        <div className='detailed-status__button'><IconButton className='quote-right-icon' disabled={!publicStatus} title={intl.formatMessage(messages.quote)} icon='quote-right' iconComponent={QuoteIcon} onClick={this.handleQuoteClick} /></div>
         <div className='detailed-status__button'><IconButton className='star-icon' animate active={status.get('favourited')} title={intl.formatMessage(messages.favourite)} icon='star' iconComponent={status.get('favourited') ? StarIcon : StarBorderIcon} onClick={this.handleFavouriteClick} /></div>
         <div className='detailed-status__button'>
           {

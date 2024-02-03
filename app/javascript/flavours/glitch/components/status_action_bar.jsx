@@ -11,6 +11,7 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 import AddReactionIcon from '@/material-icons/400-24px/add_reaction.svg?react';
 import BookmarkIcon from '@/material-icons/400-24px/bookmark-fill.svg?react';
 import BookmarkBorderIcon from '@/material-icons/400-24px/bookmark.svg?react';
+import FormatQuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
 import MoreHorizIcon from '@/material-icons/400-24px/more_horiz.svg?react';
 import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
 import ReplyIcon from '@/material-icons/400-24px/reply.svg?react';
@@ -338,6 +339,18 @@ class StatusActionBar extends ImmutablePureComponent {
     } else {
       reblogTitle = intl.formatMessage(messages.cannot_reblog);
       reblogIconComponent = RepeatDisabledIcon;
+    }
+
+    // quotes
+    if (publicStatus) {
+      quoteTitle = intl.formatMessage(messages.quote);
+      quoteIconComponent = FormatQuoteIcon;
+    } else if (reblogPrivate) {
+      quoteTitle = intl.formatMessage(messages.reblog_private);
+      quoteIconComponent = FormatQuoteIcon;
+    } else {
+      quoteTitle = intl.formatMessage(messages.cannot_reblog);
+      quoteIconComponent = FormatQuoteIcon;
     }
 
     const filterButton = this.props.onFilter && (
