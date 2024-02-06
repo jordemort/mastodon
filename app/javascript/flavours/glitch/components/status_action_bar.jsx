@@ -325,7 +325,7 @@ class StatusActionBar extends ImmutablePureComponent {
 
     const reblogPrivate = status.getIn(['account', 'id']) === me && status.get('visibility') === 'private';
 
-    let reblogTitle, reblogIconComponent;
+    let reblogTitle, reblogIconComponent, quoteTitle, quoteIconComponent;
 
     if (status.get('reblogged')) {
       reblogTitle = intl.formatMessage(messages.cancel_reblog_private);
