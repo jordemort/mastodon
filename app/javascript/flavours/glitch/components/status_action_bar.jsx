@@ -244,6 +244,7 @@ class StatusActionBar extends ImmutablePureComponent {
 
     let menu = [];
     let reblogIcon = 'retweet';
+    let quoteIcon = 'quote-right';
     let replyIcon;
     let replyIconComponent;
     let replyTitle;
