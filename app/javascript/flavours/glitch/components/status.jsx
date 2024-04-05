@@ -22,7 +22,6 @@ import Bundle from '../features/ui/components/bundle';
 import { MediaGallery, Video, Audio } from '../features/ui/util/async-components';
 import { displayMedia, visibleReactions } from '../initial_state';
 import { SensitiveMediaContext } from '../features/ui/util/sensitive_media_context';
-import { displayMedia } from '../initial_state';
 
 import AttachmentList from './attachment_list';
 import { CollapseButton } from './collapse_button';

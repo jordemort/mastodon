@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import { createRef } from 'react';
 
 import QuoteIndicatorContainer from '../containers/quote_indicator_container';
-import AutosuggestTextarea from '../../../components/autosuggest_textarea';
-import AutosuggestInput from '../../../components/autosuggest_input';
 import { defineMessages, injectIntl } from 'react-intl';
 
 import classNames from 'classnames';
