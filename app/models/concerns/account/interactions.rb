@@ -231,10 +231,6 @@ module Account::Interactions
   end
 
   def reacted?(status, name, custom_emoji = nil)
-    status.proper.status_reactions.where(account: self, name: name, custom_emoji: custom_emoji).exists?
-  end
-
-  def reacted?(status, name, custom_emoji = nil)
     status.proper.status_reactions.exists?(account: self, name: name, custom_emoji: custom_emoji)
   end
 

@@ -1488,7 +1488,8 @@ body > [data-popper-placement] {
     border-bottom: 0;
 
     .status__content,
-    .status__action-bar {
+    .status__action-bar,
+    .reactions-bar {
       margin-inline-start: $thread-margin;
       width: calc(100% - ($thread-margin));
     }
@@ -1840,6 +1841,14 @@ body > [data-popper-placement] {
 
   &-spacer {
     flex-grow: 1;
+  }
+
+  & > .emoji-picker-dropdown {
+    height: 24px;
+
+    > .emoji-button {
+      padding: 0;
+    }
   }
 }
 
@@ -4986,6 +4995,10 @@ a.status-card {
 .detailed-status__button {
   flex: 1 1 auto;
   text-align: center;
+}
+
+.detailed-status__button .emoji-button {
+  padding: 0;
 }
 
 .column-settings {
@@ -9099,6 +9112,8 @@ noscript {
   }
 
   &--empty {
+    margin-top: 0;
+
     .emoji-button {
       padding: 0;
     }
