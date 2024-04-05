@@ -881,7 +881,7 @@ class Status extends ImmutablePureComponent {
                 onFilter={matchedFilters ? this.handleFilterClick : null}
                 {...other}
               />
-            ) : null}
+            )}
             {notification ? (
               <NotificationOverlayContainer
                 notification={notification}
