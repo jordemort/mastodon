@@ -16,6 +16,8 @@ module ActivityPub::CaseTransform
                                        "_:#{value.delete_prefix('_:').underscore.camelize(:lower)}"
                                      elsif LanguagesHelper::ISO_639_1_REGIONAL.key?(value.to_sym)
                                        value
+                                     elsif value.start_with?('_')
+                                       value
                                      else
                                        value.underscore.camelize(:lower)
                                      end

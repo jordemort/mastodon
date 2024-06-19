@@ -263,6 +263,7 @@ html {
 }
 
 // Change the background colors of status__content__spoiler-link
+.quote-indicator__content .status__content__spoiler-link,
 .reply-indicator__content .status__content__spoiler-link,
 .status__content .status__content__spoiler-link {
   background: $ui-base-color;
@@ -622,12 +623,14 @@ html {
   }
 }
 
+.quote-indicator,
 .reply-indicator {
   background: transparent;
   border: 1px solid lighten($ui-base-color, 8%);
 }
 
 .status__content,
+.quote-indicator__content,
 .reply-indicator__content {
   a {
     color: $highlight-text-color;

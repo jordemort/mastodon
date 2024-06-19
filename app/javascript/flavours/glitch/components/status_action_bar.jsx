@@ -12,6 +12,8 @@ import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'flavours/
 import { accountAdminLink, statusAdminLink } from 'flavours/glitch/utils/backend_links';
 import { WithRouterPropTypes } from 'flavours/glitch/utils/react_router';
 
+import FormatQuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
+
 import DropdownMenuContainer from '../containers/dropdown_menu_container';
 import { me } from '../initial_state';
 
@@ -32,6 +34,7 @@ const messages = defineMessages({
   replyAll: { id: 'status.replyAll', defaultMessage: 'Reply to thread' },
   reblog: { id: 'status.reblog', defaultMessage: 'Boost' },
   reblog_private: { id: 'status.reblog_private', defaultMessage: 'Boost with original visibility' },
+  quote: { id: 'status.quote', defaultMessage: 'Quote' },
   cancel_reblog_private: { id: 'status.cancel_reblog_private', defaultMessage: 'Unboost' },
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be boosted' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
@@ -64,6 +67,7 @@ class StatusActionBar extends ImmutablePureComponent {
     onReply: PropTypes.func,
     onFavourite: PropTypes.func,
     onReblog: PropTypes.func,
+    onQuote: PropTypes.func,
     onDelete: PropTypes.func,
     onDirect: PropTypes.func,
     onMention: PropTypes.func,
@@ -129,6 +133,17 @@ class StatusActionBar extends ImmutablePureComponent {
       this.props.onInteractionModal('reblog', this.props.status);
     }
   };
+
+  handleQuoteClick = () => {
+    const { signedIn } = this.context.identity;
+
+    if (signedIn) {
+      this.props.onQuote(this.props.status, this.context.router.history);
+    } else {
+      // TODO(ariadne): Add an interaction modal for quoting specifically.
+      this.props.onInteractionModal('reply', this.props.status);
+    }
+  }
 
   handleBookmarkClick = (e) => {
     this.props.onBookmark(this.props.status, e);
@@ -286,6 +301,8 @@ class StatusActionBar extends ImmutablePureComponent {
     const reblogPrivate = status.getIn(['account', 'id']) === me && status.get('visibility') === 'private';
 
     let reblogTitle = '';
+    let quoteTitle, quoteIconComponent;
+
     if (status.get('reblogged')) {
       reblogTitle = intl.formatMessage(messages.cancel_reblog_private);
     } else if (publicStatus) {
@@ -294,6 +311,18 @@ class StatusActionBar extends ImmutablePureComponent {
       reblogTitle = intl.formatMessage(messages.reblog_private);
     } else {
       reblogTitle = intl.formatMessage(messages.cannot_reblog);
+    }
+
+    // quotes
+    if (publicStatus) {
+      quoteTitle = intl.formatMessage(messages.quote);
+      quoteIconComponent = FormatQuoteIcon;
+    } else if (reblogPrivate) {
+      quoteTitle = intl.formatMessage(messages.reblog_private);
+      quoteIconComponent = FormatQuoteIcon;
+    } else {
+      quoteTitle = intl.formatMessage(messages.cannot_reblog);
+      quoteIconComponent = FormatQuoteIcon;
     }
 
     const filterButton = this.props.onFilter && (
@@ -311,6 +340,8 @@ class StatusActionBar extends ImmutablePureComponent {
           obfuscateCount
         />
         <IconButton className={classNames('status__action-bar-button', { reblogPrivate })} disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle} icon={reblogIcon} onClick={this.handleReblogClick} counter={withCounters ? status.get('reblogs_count') : undefined} />
+        <IconButton className={classNames('status__action-bar-button', { reblogPrivate })} disabled={!publicStatus && !reblogPrivate} /* active={status.get('reblogged')} */ title={quoteTitle} icon={quoteIcon} iconComponent={quoteIconComponent} onClick={this.handleQuoteClick} />
+
         <IconButton className='status__action-bar-button star-icon' animate active={status.get('favourited')} title={intl.formatMessage(messages.favourite)} icon='star' onClick={this.handleFavouriteClick} counter={withCounters ? status.get('favourites_count') : undefined} />
         <IconButton className='status__action-bar-button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark' onClick={this.handleBookmarkClick} />
 
