@@ -1,9 +1,5 @@
 import PropTypes from 'prop-types';
 
-import ReplyIndicatorContainer from '../containers/reply_indicator_container';
-import QuoteIndicatorContainer from '../containers/quote_indicator_container';
-import AutosuggestTextarea from '../../../components/autosuggest_textarea';
-import AutosuggestInput from '../../../components/autosuggest_input';
 import { defineMessages, injectIntl } from 'react-intl';
 
 import classNames from 'classnames';
@@ -23,6 +19,7 @@ import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import OptionsContainer from '../containers/options_container';
 import PollFormContainer from '../containers/poll_form_container';
 import ReplyIndicatorContainer from '../containers/reply_indicator_container';
+import QuoteIndicatorContainer from '../containers/quote_indicator_container';
 import UploadFormContainer from '../containers/upload_form_container';
 import WarningContainer from '../containers/warning_container';
 import { countableText } from '../util/counter';

@@ -11,7 +11,7 @@ import { WithOptionalRouterPropTypes, withOptionalRouter } from 'flavours/glitch
 import { Avatar } from '../../../components/avatar';
 import { DisplayName } from '../../../components/display_name';
 import { IconButton } from '../../../components/icon_button';
-import { Icon } from '.../.../.../components/icon';
+import { Icon } from '../../../components/icon';
 
 const messages = defineMessages({
   cancel: { id: 'reply_indicator.cancel', defaultMessage: 'Cancel' },
