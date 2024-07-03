@@ -19,7 +19,11 @@ class FetchLinkCardService < BaseService
   BYTESIZE_LIMIT = 2692
 
   def call(status)
-    @status       = status
+    @status = status
+    @parsed_urls_core = parse_urls_core
+
+    notify_for_quote_boosts_and_mentions_by_url
+
     @original_url = parse_urls
 
     return if @original_url.nil? || @status.with_preview_card?
@@ -73,7 +77,8 @@ class FetchLinkCardService < BaseService
     end
   end
 
-  def parse_urls
+
+  def parse_urls_core
     urls = if @status.local?
              @status.text.scan(URL_PATTERN).map { |array| Addressable::URI.parse(array[1]).normalize }
            else
@@ -83,12 +88,21 @@ class FetchLinkCardService < BaseService
              links.filter_map { |a| Addressable::URI.parse(a['href']) unless skip_link?(a) }.filter_map(&:normalize)
            end
 
-    urls.reject { |uri| bad_url?(uri) }.first
+    urls.reject { |uri| bad_url?(uri) }
   end
 
   def bad_url?(uri)
     # Avoid local instance URLs and invalid URLs
     uri.host.blank? || TagManager.instance.local_url?(uri.to_s) || !%w(http https).include?(uri.scheme) || uri.to_s.bytesize > BYTESIZE_LIMIT
+  end
+
+  def parse_urls
+    @parsed_urls_core.reject { |uri| local_url?(uri) }.first
+  end
+
+  def local_url?(uri)
+    # Avoid local instance URLs
+    TagManager.instance.local_url?(uri.to_s)
   end
 
   def mention_link?(anchor)
@@ -157,5 +171,39 @@ class FetchLinkCardService < BaseService
     @card.assign_attributes(link_details_extractor.to_preview_card_attributes)
     @card.author_account = linked_account
     @card.save_with_optional_image! unless @card.title.blank? && @card.html.blank?
+  end
+
+  def notify_for_quote_boosts_and_mentions_by_url
+    @parsed_urls_core
+      .select { |uri| local_url?(uri) }
+      .map { |uri| Rails.application.routes.recognize_path(uri.path) }
+      .each { |route|
+        #noinspection RubyCaseWithoutElseBlockInspection
+        case route[:controller]
+        when 'statuses'
+          username = route[:account_username]
+          status_id = route[:id]
+          if username.present? && status_id.present?
+            notify_for_quote_boost(username, status_id)
+          end
+        when 'accounts'
+          username = route[:username]
+          if username.present?
+            notify_for_mention_by_url(username)
+          end
+        end
+      }
+  end
+
+  def notify_for_quote_boost(username, _status_id)
+    account = Account.find_local!(username)
+    return if account.nil?
+    LocalNotificationWorker.perform_async(account.id, @status.id, 'Status', 'status')
+  end
+
+  def notify_for_mention_by_url(username)
+    account = Account.find_local!(username)
+    return if account.nil?
+    LocalNotificationWorker.perform_async(account.id, @status.id, 'Status', 'status')
   end
 end
