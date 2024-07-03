@@ -155,7 +155,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const { signedIn } = this.props.identity;
 
     if (signedIn) {
-      this.props.onQuote(this.props.status, this.context.router.history);
+      this.props.onQuote(this.props.status, this.context.history);
     } else {
       // TODO(ariadne): Add an interaction modal for quoting specifically.
       this.props.onInteractionModal('reply', this.props.status);
