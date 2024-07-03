@@ -4322,9 +4322,12 @@ a.status-card {
   display: block;
   margin-top: 8px;
   font-size: 14px;
+  // jordemort: quit hiding shit
+  /*
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  */
 }
 
 .status-card__image {
