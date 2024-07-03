@@ -4,8 +4,7 @@ ARG CONTAINER_TAG=latest
 web:
   FROM DOCKERFILE .
 
-  RUN cp -a /opt/mastodon/public/assets /opt/mastodon/public.assets.dist
-  RUN cp -a /opt/mastodon/public/packs /opt/mastodon/public.packs.dist
+  RUN cp -a /opt/mastodon/public /opt/mastodon/public.dist
 
   VOLUME ["/opt/mastodon/public"]
 
