@@ -13,11 +13,9 @@ import {
   initAddFilter,
 } from 'flavours/glitch/actions/filters';
 import {
-  reblog,
-  favourite,
+  toggleReblog,
+  toggleFavourite,
   bookmark,
-  unreblog,
-  unfavourite,
   unbookmark,
   pin,
   unpin,
@@ -33,14 +31,13 @@ import {
   muteStatus,
   unmuteStatus,
   deleteStatus,
-  hideStatus,
-  revealStatus,
+  toggleStatusSpoilers,
   editStatus,
   translateStatus,
   undoStatusTranslation,
 } from 'flavours/glitch/actions/statuses';
 import Status from 'flavours/glitch/components/status';
-import { boostModal, favouriteModal, deleteModal } from 'flavours/glitch/initial_state';
+import { deleteModal } from 'flavours/glitch/initial_state';
 import { makeGetStatus, makeGetPictureInPicture } from 'flavours/glitch/selectors';
 
 import { showAlertForError } from '../actions/alerts';
@@ -98,7 +95,7 @@ const makeMapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
 
-  onReply (status, router) {
+  onReply (status) {
     dispatch((_, getState) => {
       let state = getState();
 
@@ -109,11 +106,11 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
             message: intl.formatMessage(messages.replyMessage),
             confirm: intl.formatMessage(messages.replyConfirm),
             onDoNotAsk: () => dispatch(changeLocalSetting(['confirm_before_clearing_draft'], false)),
-            onConfirm: () => dispatch(replyCompose(status, router)),
+            onConfirm: () => dispatch(replyCompose(status)),
           },
         }));
       } else {
-        dispatch(replyCompose(status, router));
+        dispatch(replyCompose(status));
       }
     });
   },
@@ -144,16 +141,7 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
   },
 
   onReblog (status, e) {
-    dispatch((_, getState) => {
-      let state = getState();
-      if (state.getIn(['local_settings', 'confirm_boost_missing_media_description']) && status.get('media_attachments').some(item => !item.get('description')) && !status.get('reblogged')) {
-        dispatch(openModal({ modalType: 'BOOST', modalProps: { status, onReblog: this.onModalReblog, missingMediaDescription: true } }));
-      } else if (e.shiftKey || !boostModal) {
-        this.onModalReblog(status);
-      } else {
-        dispatch(openModal({ modalType: 'BOOST', modalProps: { status, onReblog: this.onModalReblog } }));
-      }
-    });
+    dispatch(toggleReblog(status.get('id'), e.shiftKey));
   },
 
   onBookmark (status) {
@@ -164,26 +152,8 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
     }
   },
 
-  onModalFavourite (status) {
-    dispatch(favourite(status));
-  },
-
   onFavourite (status, e) {
-    if (status.get('favourited')) {
-      dispatch(unfavourite(status));
-    } else {
-      if (e.shiftKey || !favouriteModal) {
-        this.onModalFavourite(status);
-      } else {
-        dispatch(openModal({
-          modalType: 'FAVOURITE',
-          modalProps: {
-            status,
-            onFavourite: this.onModalFavourite,
-          },
-        }));
-      }
-    }
+    dispatch(toggleFavourite(status.get('id'), e.shiftKey));
   },
 
   onPin (status) {
@@ -212,22 +182,22 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
     }));
   },
 
-  onDelete (status, history, withRedraft = false) {
+  onDelete (status, withRedraft = false) {
     if (!deleteModal) {
-      dispatch(deleteStatus(status.get('id'), history, withRedraft));
+      dispatch(deleteStatus(status.get('id'), withRedraft));
     } else {
       dispatch(openModal({
         modalType: 'CONFIRM',
         modalProps: {
           message: intl.formatMessage(withRedraft ? messages.redraftMessage : messages.deleteMessage),
           confirm: intl.formatMessage(withRedraft ? messages.redraftConfirm : messages.deleteConfirm),
-          onConfirm: () => dispatch(deleteStatus(status.get('id'), history, withRedraft)),
+          onConfirm: () => dispatch(deleteStatus(status.get('id'), withRedraft)),
         },
       }));
     }
   },
 
-  onEdit (status, history) {
+  onEdit (status) {
     dispatch((_, getState) => {
       let state = getState();
       if (state.getIn(['compose', 'text']).trim().length !== 0) {
@@ -236,11 +206,11 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
           modalProps: {
             message: intl.formatMessage(messages.editMessage),
             confirm: intl.formatMessage(messages.editConfirm),
-            onConfirm: () => dispatch(editStatus(status.get('id'), history)),
+            onConfirm: () => dispatch(editStatus(status.get('id'))),
           },
         }));
       } else {
-        dispatch(editStatus(status.get('id'), history));
+        dispatch(editStatus(status.get('id')));
       }
     });
   },
@@ -253,12 +223,12 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
     }
   },
 
-  onDirect (account, router) {
-    dispatch(directCompose(account, router));
+  onDirect (account) {
+    dispatch(directCompose(account));
   },
 
-  onMention (account, router) {
-    dispatch(mentionCompose(account, router));
+  onMention (account) {
+    dispatch(mentionCompose(account));
   },
 
   onOpenMedia (statusId, media, index, lang) {
@@ -301,11 +271,7 @@ const mapDispatchToProps = (dispatch, { intl, contextType }) => ({
   },
 
   onToggleHidden (status) {
-    if (status.get('hidden')) {
-      dispatch(revealStatus(status.get('id')));
-    } else {
-      dispatch(hideStatus(status.get('id')));
-    }
+    dispatch(toggleStatusSpoilers(status.get('id')));
   },
 
   deployPictureInPicture (status, type, mediaProps) {
