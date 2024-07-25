@@ -321,6 +321,16 @@ class Status < ApplicationRecord
     end
   end
 
+  def reactions(account_id = nil)
+    grouped_ordered_status_reactions.select(
+      [:name, :custom_emoji_id, 'COUNT(*) as count'].tap do |values|
+        values << value_for_reaction_me_column(account_id)
+      end
+    ).to_a.tap do |records|
+      ActiveRecord::Associations::Preloader.new(records: records, associations: :custom_emoji).call
+    end
+  end
+
   def ordered_media_attachments
     if ordered_media_attachment_ids.nil?
       # NOTE: sort Ruby-side to avoid hitting the database when the status is
