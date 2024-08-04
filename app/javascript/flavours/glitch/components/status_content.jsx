@@ -367,7 +367,7 @@ class StatusContent extends PureComponent {
     if (quoteStatus !== null) {
       quote = (
         <QuoteContent
-          handleAccountClick={this.handleAccountClick}
+          parseClick={this.props.parseClick}
           quoteStatus={quoteStatus}
         />
       );
