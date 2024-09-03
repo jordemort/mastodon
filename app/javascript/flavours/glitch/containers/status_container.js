@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { initBlockModal } from 'flavours/glitch/actions/blocks';
 import {
   replyCompose,
+  quoteCompose,
   mentionCompose,
   directCompose,
 } from 'flavours/glitch/actions/compose';
@@ -35,6 +36,23 @@ import { deleteModal } from 'flavours/glitch/initial_state';
 import { makeGetStatus, makeGetPictureInPicture } from 'flavours/glitch/selectors';
 
 import { showAlertForError } from '../actions/alerts';
+
+const messages = defineMessages({
+  deleteConfirm: { id: 'confirmations.delete.confirm', defaultMessage: 'Delete' },
+  deleteMessage: { id: 'confirmations.delete.message', defaultMessage: 'Are you sure you want to delete this status?' },
+  redraftConfirm: { id: 'confirmations.redraft.confirm', defaultMessage: 'Delete & redraft' },
+  redraftMessage: { id: 'confirmations.redraft.message', defaultMessage: 'Are you sure you want to delete this status and re-draft it? Favorites and boosts will be lost, and replies to the original post will be orphaned.' },
+  replyConfirm: { id: 'confirmations.reply.confirm', defaultMessage: 'Reply' },
+  replyMessage: { id: 'confirmations.reply.message', defaultMessage: 'Replying now will overwrite the message you are currently composing. Are you sure you want to proceed?' },
+  editConfirm: { id: 'confirmations.edit.confirm', defaultMessage: 'Edit' },
+  editMessage: { id: 'confirmations.edit.message', defaultMessage: 'Editing now will overwrite the message you are currently composing. Are you sure you want to proceed?' },
+  quoteConfirm: { id: 'confirmations.quote.confirm', defaultMessage: 'Quote' },
+  quoteMessage: { id: 'confirmations.quote.message', defaultMessage: 'Quoting now will overwrite the message you are currently composing. Are you sure you want to proceed?' },
+  unfilterConfirm: { id: 'confirmations.unfilter.confirm', defaultMessage: 'Show' },
+  author: { id: 'confirmations.unfilter.author', defaultMessage: 'Author' },
+  matchingFilters: { id: 'confirmations.unfilter.filters', defaultMessage: 'Matching {count, plural, one {filter} other {filters}}' },
+  editFilter: { id: 'confirmations.unfilter.edit_filter', defaultMessage: 'Edit filter' },
+});
 
 const makeMapStateToProps = () => {
   const getStatus = makeGetStatus();
@@ -82,6 +100,34 @@ const mapDispatchToProps = (dispatch, { contextType }) => ({
         dispatch(replyCompose(status));
       }
     });
+  },
+
+  onQuote (status, router) {
+    dispatch((_, getState) => {
+      let state = getState();
+
+      if (state.getIn(['local_settings', 'confirm_before_clearing_draft']) && state.getIn(['compose', 'text']).trim().length !== 0) {
+        dispatch(openModal({
+          modalType: 'CONFIRM',
+          modalProps: {
+            message: intl.formatMessage(messages.quoteMessage),
+            confirm: intl.formatMessage(messages.quoteConfirm),
+            onDoNotAsk: () => dispatch(changeLocalSetting(['confirm_before_clearing_draft'], false)),
+            onConfirm: () => dispatch(quoteCompose(status, router)),
+          },
+        }));
+      } else {
+        dispatch(quoteCompose(status, router));
+      }
+    });
+  },
+
+  onModalReblog (status, privacy) {
+    if (status.get('reblogged')) {
+      dispatch(unreblog({ statusId: status.get('id') }));
+    } else {
+      dispatch(reblog({ statusId: status.get('id'), visibility: privacy }));
+    }
   },
 
   onReblog (status, e) {
