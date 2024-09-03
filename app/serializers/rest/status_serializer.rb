@@ -17,7 +17,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
   attribute :pinned, if: :pinnable?
   attribute :local_only, if: :local?
   has_many :filtered, serializer: REST::FilterResultSerializer, if: :current_user?
-  attribute :quotable, if: :current_user?
+  #attribute :quotable, if: :current_user?
 
   attribute :content, unless: :source_requested?
   attribute :text, if: :source_requested?
