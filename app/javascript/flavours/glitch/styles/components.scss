@@ -363,6 +363,8 @@ body > [data-popper-placement] {
   z-index: 3;
 }
 
+// jordemort: fuck them mystery meat URLs right up the goat ass
+/*
 .invisible {
   font-size: 0;
   line-height: 0;
@@ -386,6 +388,7 @@ body > [data-popper-placement] {
     content: '…';
   }
 }
+*/
 
 .autosuggest-textarea {
   &__textarea {
@@ -4152,7 +4155,8 @@ input.glitch-setting-text {
   display: flex;
   align-items: center;
   position: relative;
-  font-size: 14px;
+  // jordemort: don't shrink the font
+  // font-size: 14px;
   color: $darker-text-color;
   margin-top: 14px;
   text-decoration: none;
@@ -4269,15 +4273,17 @@ a.status-card {
   font-size: 19px;
   line-height: 24px;
   color: $primary-text-color;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  // jordemort: please don't hide content thx
+  // overflow: hidden;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
 }
 
 .status-card.expanded .status-card__title {
   white-space: normal;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  // jordemort: don't clamp the title
+  // -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -4316,9 +4322,12 @@ a.status-card {
   display: block;
   margin-top: 8px;
   font-size: 14px;
+  // jordemort: quit hiding shit
+  /*
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  */
 }
 
 .status-card__image {
