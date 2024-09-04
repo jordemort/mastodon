@@ -39,6 +39,8 @@ import { makeGetStatus, makeGetPictureInPicture } from 'flavours/glitch/selector
 
 import { showAlertForError } from '../actions/alerts';
 
+import { defineMessages } from 'react-intl';
+
 const messages = defineMessages({
   deleteConfirm: { id: 'confirmations.delete.confirm', defaultMessage: 'Delete' },
   deleteMessage: { id: 'confirmations.delete.message', defaultMessage: 'Are you sure you want to delete this status?' },
